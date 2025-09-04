@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "655422618563",
+    "project_id": "d-serve-48362",
+    "storage_bucket": "d-serve-48362.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655422618563:android:72825d74540292efb99b76",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdDm09KZtdWH7htZ049j9tmattqX8ZHI0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655422618563:android:eec1aea577d3fcb2b99b76",
+        "android_client_info": {
+          "package_name": "com.mobile.dserve"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdDm09KZtdWH7htZ049j9tmattqX8ZHI0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
