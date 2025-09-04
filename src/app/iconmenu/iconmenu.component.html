@@ -1,0 +1,57 @@
+<div class="overflow-x-auto scrollbar-hide py-2 px-3" *ngIf="dataUser != null && dataUser.user.unit != null">
+  <div class="flex space-x-4" *ngIf="dataUser.user.unit.unitType.roleUnitType ==='REQUESTER'">
+     <ng-container *ngFor="let menu of availableUnits">
+    <button
+    *ngIf="menu.roleUnitType === 'HELPER'"
+    (click)="selectMenu(menu.id)"
+    [ngClass]="[
+      'flex flex-col items-center justify-center w-[60px] h-[60px] rounded-lg cursor-pointer transition-all duration-200 flex-shrink-0 select-none',
+      selectedMenuId === menu.id
+        ? 'bg-indigo-500 text-white shadow-md scale-105'
+        : 'bg-gray-200 text-gray-700 hover:bg-indigo-100 hover:text-indigo-600'
+    ]"
+  >
+    <span class="text-xs mt-1">{{ menu.name }}</span>
+  </button>
+    </ng-container>
+  </div>
+</div>
+
+
+<!-- Modal
+<div *ngIf="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg p-6 max-w-xs w-full text-center">
+    <p class="mb-4">{{ modalMessage }}</p>
+    <div class="flex justify-center space-x-4">
+      <button (click)="confirmAction()"
+        class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">
+        Ya
+      </button>
+      <button (click)="cancelAction()"
+        class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition">
+        Tidak
+      </button>
+    </div>
+  </div>
+</div> -->
+
+
+<div *ngIf="showModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+  <div class="bg-white p-6 rounded-lg w-80">
+    <h2 class="text-lg font-semibold mb-2">Konfirmasi Pesanan</h2>
+    <p class="mb-4">Apakah Anda yakin ingin memesan <strong>{{ menuToConfirm }}</strong>?</p>
+
+    <!-- Input komentar -->
+    <textarea
+      [(ngModel)]="komentar"
+      placeholder="Tambahkan komentar (opsional)"
+      class="w-full border border-gray-300 rounded p-2 mb-4 resize-none"
+      rows="3"
+    ></textarea>
+
+    <div class="flex justify-end space-x-2">
+      <button (click)="cancelAction()" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Batal</button>
+      <button (click)="confirmAction()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Ya</button>
+    </div>
+  </div>
+</div>

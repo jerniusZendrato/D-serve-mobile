@@ -1,0 +1,46 @@
+<div
+  class="flex justify-between items-center p-6 bg-white shadow-sm rounded-md mb-6"
+>
+  <!-- Card Teman -->
+  <div
+    class="flex items-center space-x-4 p-4 rounded hover:shadow-md transition-shadow cursor-default w-72"
+    title="Unit Support: Technical Support"
+  >
+    <!-- Icon kecil simpel -->
+    <svg
+      class="w-8 h-8 text-gray-500 flex-shrink-0"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M5 13l4 4L19 7"
+      ></path>
+    </svg>
+
+    <!-- Info -->
+    <div *ngIf="data2">
+      <h3 class="text-lg font-semibold text-gray-800">{{ data2.user.username }}</h3>
+      
+      <p *ngIf="data2.user.unit == null" class="text-sm">
+        <a 
+          href="#" 
+          class="text-blue-600 font-semibold underline-offset-2 hover:underline transition-all duration-200"
+          [routerLink]="['/home/unit']"
+        >
+          Klik untuk input unit
+        </a>
+      </p>
+      <p *ngIf="data2.user.unit != null" class="text-sm text-gray-600">{{ data2.user.unit.unitType.name}}-{{ data2.user.unit.name}}</p>
+    </div>
+  </div>
+  <img
+    src="assets/images/logov2.png"
+    alt="Logo"
+    class="w-14 h-14"
+  />
+</div>

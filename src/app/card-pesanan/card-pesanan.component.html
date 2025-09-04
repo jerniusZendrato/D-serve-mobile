@@ -1,0 +1,111 @@
+<div class="space-y-6">
+  <!-- Pesanan kosong -->
+  <div *ngIf="orderanList.length === 0" class="text-gray-400 text-center py-6">
+    Pesanan belum ada
+  </div>
+
+  <!-- Timeline orderan -->
+  <div
+    *ngFor="let order of orderanList; let idx = index"
+    class="p-4 rounded-2xl shadow-md hover:shadow-lg transition-all bg-white relative"
+  >
+    <!-- Header -->
+    <div class="mb-3 flex justify-between items-center cursor-pointer"
+         (click)="toggleExpand(idx)">
+      <p class="font-semibold text-lg">{{ order.targetUnitTypeName }}</p>
+      
+
+      <div class="flex items-center space-x-2">
+        <span 
+          class="text-xs font-semibold px-2 py-1 rounded-full text-white"
+          [ngClass]="{
+            'bg-blue-500': order.status === 'PROSESS',
+            'bg-green-500': order.status === 'ACCEPTED',
+            'bg-gray-500': order.status === 'COMPLETED'
+          }"
+        >
+          {{ order.status }}
+        </span>
+
+        <!-- Icon collapse/expand -->
+        <svg 
+          [ngClass]="isExpanded(idx) ? 'rotate-180' : ''"
+          class="h-5 w-5 text-gray-500 transition-transform"
+          fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </div>
+    </div>
+    <p class="font-semibold text-sm">Lokasi</p><p class="text-sm text-gray-600">{{ order.location }}</p>
+
+    <!-- Timeline collapsible -->
+    <div *ngIf="isExpanded(idx)" class="relative border-l-2 border-gray-200 ml-3 mt-4">
+
+      <!-- Proses -->
+      <div class="mb-6 relative">
+        <span class="absolute -left-3 top-1 flex h-6 w-6 items-center justify-center rounded-full"
+          [ngClass]="order.prosessAt ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-600'">
+          <svg *ngIf="order.prosessAt" class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+          </svg>
+        </span>
+        <div class="ml-10">
+          <h3 class="font-semibold">Diproses</h3>
+          <p class="text-sm text-gray-600">
+            Order by: {{ order.requesterUserName && order.requesterUnitName? order.requesterUserName + ', ' + order.requesterUnitTypeName + ' - ' +order.requesterUnitName: 'belum ada' }}
+          </p>
+          <p class="text-sm text-gray-600">
+            {{ order.prosessAt ? (order.prosessAt | date:'short') : 'Belum diproses' }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Accepted -->
+      <div class="mb-6 relative">
+        <span class="absolute -left-3 top-1 flex h-6 w-6 items-center justify-center rounded-full"
+          [ngClass]="order.acceptedAt ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-600'">
+          <svg *ngIf="order.acceptedAt" class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+          </svg>
+        </span>
+        <div class="ml-10">
+          <h3 class="font-semibold">Diterima</h3>
+          <p class="text-sm text-gray-600">
+            Accepted by: {{ order.responderUserName? order.responderUserName: 'belum ada' }}
+          </p>
+          <p class="text-sm text-gray-600">
+            {{ order.acceptedAt ? (order.acceptedAt | date:'short') : 'Belum diterima' }}
+          </p>
+          
+        </div>
+      </div>
+
+      <!-- Completed -->
+      <div class="relative">
+        <span class="absolute -left-3 top-1 flex h-6 w-6 items-center justify-center rounded-full"
+          [ngClass]="order.completedAt ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-600'">
+          <svg *ngIf="order.completedAt" class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+          </svg>
+        </span>
+
+        <div class="ml-10">
+          <h3 class="font-semibold">Selesai</h3>
+          <p class="text-sm text-gray-600">
+            {{ order.completedAt ? (order.completedAt | date:'short') : 'Belum selesai' }}
+          </p>
+          <ng-container *ngIf=" authData && authData.user as user">
+        <button *ngIf="order.acceptedAt && order.completedAt ===null && order.requesterUserName === user.username"
+          class="mt-2 px-3 py-1 text-xs font-medium rounded-lg shadow 
+                bg-green-500 hover:bg-green-600 text-white transition"
+          (click)="completeddata(order.id)">
+          Accepted
+        </button>
+        
+      </ng-container>
+      </div>
+      </div>
+
+    </div>
+  </div>
+</div>

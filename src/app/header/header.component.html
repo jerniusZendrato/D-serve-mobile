@@ -1,0 +1,70 @@
+<header class="bg-white shadow px-8 py-4 flex items-center justify-between sticky top-0 z-50">
+  <!-- Logo / Brand -->
+  <div class="flex items-center space-x-4">
+    <img src="assets/images/logov2.png" alt="Logo" class="w-10 h-10" />
+    <!-- <h1 class="text-2xl font-bold text-gray-800">MyApp</h1> -->
+  </div>
+
+  <!-- Search bar -->
+  <div class="flex-1 mx-8">
+    <input
+      type="text"
+      placeholder="Search..."
+      class="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    />
+  </div>
+
+  <!-- Action Icons & Profile -->
+  <div class="flex items-center space-x-6 " >
+    <!-- Notification Icon -->
+    <button 
+  aria-label="Notifications" 
+  class="relative text-gray-600 hover:text-indigo-600 focus:outline-none"
+  (click)="toggleNotifikasi()">
+  
+  <!-- Icon Bell -->
+  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-5-5.917V5a2 2 0 10-4 0v.083A6 6 0 004 11v3.159c0 .538-.214 1.055-.595 1.436L2 17h5m0 0v1a3 3 0 006 0v-1m-6 0h6" />
+  </svg>
+
+  <!-- Badge notifikasi -->
+  <span 
+    *ngIf="notifCount > 0"
+    class="absolute -top-1 -right-1 min-w-[18px] h-4 bg-red-600 text-white text-xs font-bold rounded-full flex items-center justify-center px-1">
+    {{ notifCount }}
+  </span>
+</button>
+
+
+    <!-- Profile dropdown -->
+    <!-- Profile dropdown tanpa foto -->
+<div class="relative group">
+  <button class="flex items-center focus:outline-none p-2 rounded hover:bg-gray-200">
+  <svg
+    class="w-6 h-6 text-gray-700"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M4 6h16M4 12h16M4 18h16"
+    ></path>
+  </svg>
+</button>
+
+  <!-- Dropdown menu -->
+  <div
+    class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-opacity"
+  >
+    <a  class="block px-4 py-2 text-gray-700 hover:bg-indigo-100">Kalkulator</a>
+    <a (click)="logout()" class="block px-4 py-2 text-red-600 hover:bg-red-100">Logout</a>
+  </div>
+</div>
+
+  </div>
+</header>

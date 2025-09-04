@@ -1,0 +1,55 @@
+<!-- Mobile-First Home Component -->
+<div class="min-h-screen bg-gray-50 pb-4">
+  <!-- User Card - Full width on mobile -->
+  <div class="px-4 sm:px-6 lg:px-8 pt-4">
+    <app-user-card></app-user-card>
+  </div>
+
+  <!-- Location Selector - Mobile optimized -->
+  <div class="px-4 sm:px-6 lg:px-8 mb-6">
+    <div class="w-full sm:w-80 lg:w-96">
+      <label for="location" class="block mb-2 text-base sm:text-sm font-semibold text-gray-700">
+        Pilih Lokasi
+      </label>
+      <select
+        id="location"
+        name="location"
+        [(ngModel)]="selectedLocation"
+        class="block w-full rounded-lg border border-gray-300 bg-white py-3 px-4 text-base sm:text-sm text-gray-700 shadow-sm
+               focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400 focus:outline-none
+               hover:border-indigo-400 transition-colors duration-200
+               appearance-none cursor-pointer"
+      >
+        <option value="" disabled>-- Pilih lokasi --</option>
+        <option *ngFor="let loc of locations" [value]="loc.id">
+          {{ loc.name }}
+        </option>
+      </select>
+
+      <!-- Custom dropdown arrow -->
+      <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </div>
+
+      <!-- Selected location display -->
+      <div class="mt-3 p-3 bg-indigo-50 rounded-lg border border-indigo-200">
+        <p class="text-sm text-indigo-700">
+          <span class="font-medium">Lokasi dipilih:</span> 
+          <span class="font-semibold">{{ selectedLocation || 'Belum dipilih' }}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Icon Menu - Horizontal scroll optimized -->
+  <div class="mb-6">
+    <app-iconmenu></app-iconmenu>
+  </div>
+
+  <!-- Card Pesanan - Mobile optimized -->
+  <div class="px-4 sm:px-6 lg:px-8">
+    <app-card-pesanan></app-card-pesanan>
+  </div>
+</div>
