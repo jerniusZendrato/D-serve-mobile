@@ -7,6 +7,9 @@ const config: CapacitorConfig = {
   plugins: {
     SplashScreen: {
       launchShowDuration: 0,
+    },
+    PushNotifications: {
+      presentationOptions: ["badge", "sound", "alert"]
     }
   }
 };
