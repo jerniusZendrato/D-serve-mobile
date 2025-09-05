@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { PushNotifications, Token, PushNotificationSchema, ActionPerformed } from '@capacitor/push-notifications';
+import { AuthdataService } from '../service/authdata.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,16 @@ export class PushNotificationService {
   private vapidPublicKey = '';
   private userId = '';
 
-  async initialize(userId: string) {
-    this.userId = userId;
+  constructor(private authService: AuthdataService) {}
+
+  async initialize() {
+    // Auto get userId from authData
+    const authData = await this.authService.loadAuthData();
+    if (!authData?.user?.id) {
+      throw new Error('User not authenticated');
+    }
+    
+    this.userId = authData.user.id;
     
     if (Capacitor.isNativePlatform()) {
       await this.initializeNative();
@@ -101,5 +110,19 @@ export class PushNotificationService {
         });
       }
     }
+  }
+
+  async sendTestNotification(title: string = 'Test Order', body: string = 'Ada pesanan baru untuk tambang') {
+    const response = await fetch('/api/notifications/test', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId: this.userId,
+        title,
+        body,
+        data: { url: '/' }
+      })
+    });
+    return await response.text();
   }
 }

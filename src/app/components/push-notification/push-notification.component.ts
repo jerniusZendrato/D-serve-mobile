@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PushNotificationService } from '../../services/push-notification.service';
+import { AuthdataService } from '../../service/authdata.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -11,13 +12,13 @@ import { CommonModule } from '@angular/common';
     <div class="push-container">
       <h2>Push Notifications</h2>
       
-      <div class="form-group">
-        <label>User ID</label>
-        <input [(ngModel)]="userId" placeholder="Enter your user ID" />
+      <div class="user-info" *ngIf="currentUser">
+        <p><strong>User:</strong> {{currentUser.username}} ({{currentUser.id}})</p>
+        <p><strong>Role:</strong> {{currentUser.role}}</p>
       </div>
       
       <div class="buttons">
-        <button (click)="subscribe()" [disabled]="!userId">Subscribe</button>
+        <button (click)="subscribe()" [disabled]="!currentUser">Subscribe</button>
         <button (click)="unsubscribe()">Unsubscribe</button>
       </div>
       
@@ -42,6 +43,7 @@ import { CommonModule } from '@angular/common';
   `,
   styles: [`
     .push-container { padding: 20px; max-width: 500px; }
+    .user-info { background: #f8f9fa; padding: 12px; border-radius: 4px; margin: 12px 0; }
     .form-group { margin: 12px 0; }
     label { display: block; margin-bottom: 4px; font-weight: bold; }
     input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
@@ -53,17 +55,25 @@ import { CommonModule } from '@angular/common';
     .log-entry { background: #f8f9fa; padding: 8px; margin: 4px 0; border-radius: 4px; font-family: monospace; font-size: 12px; }
   `]
 })
-export class PushNotificationComponent {
-  userId = '';
-  testTitle = 'New Order';
-  testBody = 'Ada pesanan baru untuk tambang';
+export class PushNotificationComponent implements OnInit {
+  currentUser: any = null;
+  testTitle = 'Pesanan Baru';
+  testBody = 'Ada pesanan baru untuk tambang Anda';
   logs: string[] = [];
 
-  constructor(private pushService: PushNotificationService) {}
+  constructor(
+    private pushService: PushNotificationService,
+    private authService: AuthdataService
+  ) {}
+
+  async ngOnInit() {
+    const authData = await this.authService.loadAuthData();
+    this.currentUser = authData?.user;
+  }
 
   async subscribe() {
     try {
-      await this.pushService.initialize(this.userId);
+      await this.pushService.initialize();
       this.log('Berhasil subscribe push notification');
     } catch (error) {
       this.log('Gagal subscribe: ' + error);
@@ -81,17 +91,8 @@ export class PushNotificationComponent {
 
   async sendTest() {
     try {
-      const response = await fetch('/api/notifications/test', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId: this.userId,
-          title: this.testTitle,
-          body: this.testBody,
-          data: { url: '/' }
-        })
-      });
-      this.log('Test notification sent: ' + await response.text());
+      const result = await this.pushService.sendTestNotification(this.testTitle, this.testBody);
+      this.log('Test notification sent: ' + result);
     } catch (error) {
       this.log('Gagal kirim test: ' + error);
     }

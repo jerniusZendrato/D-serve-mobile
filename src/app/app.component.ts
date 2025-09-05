@@ -11,6 +11,7 @@ import { NotificationService } from './service/notification.service';
 import { App } from '@capacitor/app';
 import { LoadingService } from './service/loading.service';
 import { ToastService } from './service/toast.service';
+import { PushAutoInitService } from './services/push-auto-init.service';
 
 @Component({
   selector: 'app-root',
@@ -31,16 +32,17 @@ export class AppComponent {
     private notificationService: NotificationService, 
     private router: Router, 
     private loadingService: LoadingService,
-    public toastService: ToastService) {}
+    public toastService: ToastService,
+    private pushAutoInit: PushAutoInitService) {}
+
 ngOnInit() {
   this.loadData();
   if (Capacitor.isNativePlatform()) {
       this.notificationService.init();
     }
 
-
-
-  
+  // Auto-enable push notifications
+  this.pushAutoInit.autoEnablePushNotifications();
 
   const container = document.getElementById('scrollable');
 
