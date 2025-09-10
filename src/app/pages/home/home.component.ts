@@ -9,12 +9,11 @@ import { Capacitor } from '@capacitor/core';
 import { Preferences } from '@capacitor/preferences';
 import { ToastService } from '../../service/toast.service';
 import { AuthdataService } from '../../service/authdata.service';
-import { TrackingMapComponent } from '../../tracking-map/tracking-map.component';
 
 @Component({
   selector: 'app-home',
   standalone:true,
-  imports: [CommonModule, IconmenuComponent,UserCardComponent,CardPesananComponent, FormsModule,TrackingMapComponent],
+  imports: [CommonModule, IconmenuComponent,UserCardComponent,CardPesananComponent, FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

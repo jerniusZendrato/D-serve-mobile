@@ -43,6 +43,8 @@ export interface supports {
   responderUserId:String;
   responderUserName:String;
   responderUnitId:String;
+  latitude: number;
+  lngitude: number;
   responderUnitName:String;
   description:String;
   location:string;

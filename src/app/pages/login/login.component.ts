@@ -5,6 +5,8 @@ import { LoginService } from '../../service/login.service';
 import { Login } from '../../models/login.model';
 import { LoadingService } from '../../service/loading.service';
 import { ToastService } from '../../service/toast.service';
+import { PushService } from '../../service/push-notification.service';
+import { AuthdataService } from '../../service/authdata.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +26,9 @@ export class LoginComponent {
   constructor(private router: Router, 
     private loginservice:LoginService, 
     private loadingService: LoadingService,
-    private toastService: ToastService) {}
+    private toastService: ToastService,
+    private pushService: PushService,
+    private authdataservice: AuthdataService) {}
   onLogin() {
     const loginData: Login = {
       username: this.username,
@@ -35,7 +39,25 @@ export class LoginComponent {
 
     this.loginservice.postData(loginData).subscribe({
       next: async (res) => {
-             
+              // Initialize push notifications setelah login berhasil dengan delay
+              setTimeout(async () => {
+                try {
+                  console.log('🔄 Starting push notification initialization...');
+                  // Ambil JWT token dari response atau storage
+                  const authData = await this.authdataservice.loadAuthData();
+                  const jwt = authData?.accessToken;
+                  
+                  if (jwt) {
+                    await this.pushService.init(jwt);
+                    console.log('✅ Push notifications initialized after login');
+                  } else {
+                    console.warn('⚠️ No JWT token found for push notifications');
+                  }
+                } catch (error) {
+                  console.error('❌ Failed to initialize push notifications:', error);
+                }
+              }, 2000); // Delay 2 detik untuk memastikan authData tersimpan
+              
               this.router.navigate(['/home']);
               this.loadingService.hide();
           },

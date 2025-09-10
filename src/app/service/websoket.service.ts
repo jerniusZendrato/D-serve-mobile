@@ -57,7 +57,7 @@ export class WebsoketService implements OnDestroy {
   private async initializeWebSocket() {
     return new Promise<void>((resolve, reject) => {
       this.client = new Client({
-        brokerURL: 'wss://mining-be-service-dev.up.railway.app/ws',
+        brokerURL: 'wss://mining-be-service-staging.up.railway.app/ws',
         reconnectDelay: 3000,
         debug: (str) => console.debug('[STOMP]', str)
       });

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import {  supports } from '../models/orderan.model';
 import { LoginData } from '../models/login.model';
 import { AuthdataService } from '../service/authdata.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ToastService } from '../service/toast.service';
 import { PesanService } from '../service/pesan.service';
@@ -18,7 +18,7 @@ import { NotificationService } from '../service/notification.service';
 @Component({
   selector: 'app-card-pesanan',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './card-pesanan.component.html',
   styleUrl: './card-pesanan.component.css'
 })
@@ -57,6 +57,7 @@ export class CardPesananComponent implements OnInit, OnDestroy {
   }
 
   orderanList: supports[] = [];
+  isLoading = true;
   authData: LoginData | null = null;
 
   ngOnInit() {
@@ -150,6 +151,7 @@ export class CardPesananComponent implements OnInit, OnDestroy {
   if(this.authData){
     const iduser = this.authData?.user.id
     const token = this.authData?.accessToken
+    setTimeout(() => {
     if(iduser && token){
 
       this.pesananService.getOrderanByUser(iduser, token).subscribe({
@@ -169,6 +171,7 @@ export class CardPesananComponent implements OnInit, OnDestroy {
         localStorage.setItem('acceptedOrders', acceptedOrdersString);
       }
     }
+    this.isLoading = false
     },
     error: (err) => {
       console.error("Gagal ambil orderan:", err);
@@ -178,7 +181,7 @@ export class CardPesananComponent implements OnInit, OnDestroy {
         // localStorage.removeItem('user');
 
         // redirect ke login
-        this.router.navigate(['//verifikasi']);
+        this.router.navigate(['/verifikasi']);
       }
     }
   });
@@ -186,6 +189,7 @@ export class CardPesananComponent implements OnInit, OnDestroy {
     else{
       console.warn(`Orderan dengan ID ${iduser} tidak ditemukan`);
     }
+  }, 1000); // 2000 ms = 2 detik
   }
 
 

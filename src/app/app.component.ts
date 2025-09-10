@@ -11,7 +11,8 @@ import { NotificationService } from './service/notification.service';
 import { App } from '@capacitor/app';
 import { LoadingService } from './service/loading.service';
 import { ToastService } from './service/toast.service';
-import { PushAutoInitService } from './services/push-auto-init.service';
+import { PushService } from './service/push-notification.service';
+import { AuthdataService } from './service/authdata.service';
 
 @Component({
   selector: 'app-root',
@@ -33,7 +34,8 @@ export class AppComponent {
     private router: Router, 
     private loadingService: LoadingService,
     public toastService: ToastService,
-    private pushAutoInit: PushAutoInitService) {}
+    private pushService: PushService,
+    private authService: AuthdataService) {}
 
 ngOnInit() {
   this.loadData();
@@ -41,8 +43,10 @@ ngOnInit() {
       this.notificationService.init();
     }
 
-  // Auto-enable push notifications
-  this.pushAutoInit.autoEnablePushNotifications();
+  // Initialize push service listeners early (tanpa JWT untuk setup listeners)
+  this.initializePushListeners();
+
+  // Push notifications akan di-initialize setelah login
 
   const container = document.getElementById('scrollable');
 
@@ -104,6 +108,26 @@ refreshData() {
     this.loadingService.hide(); 
     console.log('Data refreshed!');
   }, 1500);
+}
+
+// Bootstrap methods sesuai prompt
+async afterLogin(jwt: string) {
+  await this.pushService.init(jwt);
+}
+
+async onLogout(jwt: string, lastKnownToken: string) {
+  await this.pushService.cleanupTokenOnLogout(jwt, lastKnownToken);
+}
+
+// Initialize push listeners early untuk mengatasi "No listeners found"
+private async initializePushListeners() {
+  try {
+    // Setup basic listeners tanpa JWT
+    await this.pushService.setupListeners();
+    console.log('✅ Push listeners initialized early');
+  } catch (error) {
+    console.warn('⚠️ Failed to initialize push listeners:', error);
+  }
 }
 
 }

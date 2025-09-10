@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "655422618563",
-    "project_id": "d-serve-48362",
-    "storage_bucket": "d-serve-48362.firebasestorage.app"
+    "project_number": "479454192713",
+    "project_id": "dserve-8157d",
+    "storage_bucket": "dserve-8157d.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:655422618563:android:72825d74540292efb99b76",
+        "mobilesdk_app_id": "1:479454192713:android:72825d74540292efb99b76",
         "android_client_info": {
           "package_name": "com.example.app"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBdDm09KZtdWH7htZ049j9tmattqX8ZHI0"
+          "current_key": "AIzaSyDpxIPMP-LGJDE3UzRhkklPDd0iKvoqfK0"
         }
       ],
       "services": {
@@ -26,7 +26,7 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:655422618563:android:eec1aea577d3fcb2b99b76",
+        "mobilesdk_app_id": "1:479454192713:android:eec1aea577d3fcb2b99b76",
         "android_client_info": {
           "package_name": "com.mobile.dserve"
         }
@@ -34,7 +34,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBdDm09KZtdWH7htZ049j9tmattqX8ZHI0"
+          "current_key": "AIzaSyDpxIPMP-LGJDE3UzRhkklPDd0iKvoqfK0"
         }
       ],
       "services": {

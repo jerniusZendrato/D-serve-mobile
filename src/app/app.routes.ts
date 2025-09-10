@@ -7,18 +7,21 @@ import { HomedashboardComponent } from './pages/homedashboard/homedashboard.comp
 import { authGuard } from './guards/auth.guard';
 import { VerifyPasswordComponent } from './verify-password/verify-password.component';
 import { UnitInputComponent } from './unit-input/unit-input.component';
+import { MapsComponent } from './maps/maps.component';
 
 export const routes: Routes = [
       { path: 'splash', component: SplashScreenComponent },
       { path: '', redirectTo: 'splash', pathMatch: 'full' },
       { path: 'verifikasi', component: VerifyPasswordComponent },
       { path: 'login', component: LoginComponent },
+      { path: 'orders/maps', component: MapsComponent },
       { 
     path: 'home', 
     component: HomedashboardComponent,canActivate: [authGuard] ,
     children: [
       { path: 'notifikasi', component: NotificationsComponent },
       { path: 'unit', component: UnitInputComponent },
+      { path: 'maps', component: MapsComponent },
       { path: '', component: HomeComponent }// default content
     ]
   }
